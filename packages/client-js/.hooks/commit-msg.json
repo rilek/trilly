@@ -1,0 +1,8 @@
+{
+  "steps": [
+    {
+      "name": "Add package name",
+      "command": "../../hooks/add-package-name @trilly/client-js `echo \"$PWD/../../\"` {args}"
+    }
+  ]
+}
