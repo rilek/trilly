@@ -1,0 +1,8 @@
+{
+  "steps": [
+    {
+      "name": "Add package name",
+      "command": "../../hooks/add-package-name @trillyapp/vanilla `echo \"$PWD/../../\"` {args}"
+    }
+  ]
+}

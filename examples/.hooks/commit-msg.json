@@ -2,7 +2,7 @@
   "steps": [
     {
       "name": "Add package name",
-      "command": "../hooks/add-package-name @trilly/examples `echo \"$PWD/../../\"` {args}"
+      "command": "../hooks/add-package-name @trillyapp-examples `echo \"$PWD/../../\"` {args}"
     }
   ]
 }
