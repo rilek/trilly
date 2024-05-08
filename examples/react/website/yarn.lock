@@ -809,10 +809,10 @@
     lodash "^4.17.21"
     vite "^5.2.11"
 
-"@trillyapp/vanilla@^0.0.1-prealpha.2":
-  version "0.0.1-prealpha.2"
-  resolved "https://registry.yarnpkg.com/@trillyapp/vanilla/-/vanilla-0.0.1-prealpha.2.tgz#f3baaeaf89e73eddb8924cf9c49f6057c8f04ae6"
-  integrity sha512-NHHEnQTCk1QyNtV98X+Z7jT7CPUJbB+L2Ql292P92Gc8tacXbuqDox0iYfZX30bYrvKxbe8rY86wx7MEXfXl+A==
+"@trillyapp/vanilla@^0.0.1-prealpha.3":
+  version "0.0.1-prealpha.3"
+  resolved "https://registry.yarnpkg.com/@trillyapp/vanilla/-/vanilla-0.0.1-prealpha.3.tgz#c805996298a10e23785ae47248e87c18d67cc480"
+  integrity sha512-4+RLpJnHThLNKz4kEnikGCwFQSw0h9VG0PMWJ3+cLSp9SOlse9/bK9PPDCW1nUBQV2gU9Rn+Abo6Uae5noyczw==
   dependencies:
     lodash "^4.17.21"
     store2 "^2.14.3"
