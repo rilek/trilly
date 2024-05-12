@@ -30,11 +30,8 @@ export function parseContainer(
 }
 
 type GetField = {
-  (container: undefined | null, fieldName: string): undefined;
-  (
-    container: Map<string, any>,
-    fieldName: string,
-  ): Map<string, any> | undefined;
+  <T>(container: undefined | null, fieldName: string): undefined;
+  <T>(container: Map<string, any>, fieldName: string): T | undefined;
 };
 
 export const getField: GetField = (container, fieldName) => {
