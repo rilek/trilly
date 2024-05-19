@@ -114,6 +114,7 @@ export class TrillyClient extends TinyEmitter {
   public get headers() {
     return {
       "Trilly-Api-Key": this.apiKey,
-    };
+      "Content-Type": "application/json",
+    } as RequestInit["headers"];
   }
 }
