@@ -119,7 +119,7 @@ const ContextForm = ({ client }: TrillyDevToolsProps) => {
 };
 
 export const TrillyDevTools = ({ client }: TrillyDevToolsProps) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const toggleOpen = useCallback(() => setOpen((x) => !x), [setOpen]);
 
   return (
