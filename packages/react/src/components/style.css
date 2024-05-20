@@ -1,0 +1,107 @@
+._trilly-dev-tools_ {
+  --opacity: 100%;
+  --background: #0f172a;
+  --color: rgba(255, 255, 255, 0.87);
+
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+
+  .trigger {
+    color: rgba(255, 255, 255, var(--opacity));
+    background: var(--background);
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    transition: color 0.15s;
+
+    &:hover {
+      --opacity: 80%;
+    }
+
+    &>svg {
+      height: 18px;
+    }
+  }
+
+  .popover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: -8px;
+    width: 450px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: var(--background);
+    color: var(--color);
+
+    transform: translate(0, -100%);
+
+    >header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0, 0, 0, .2);
+      padding: 8px 12px;
+
+      h1 {
+        font-weight: 700;
+      }
+
+      button {
+        background: rgba(255, 255, 255, .2);
+        padding: 1px 8px;
+        font-size: 12px;
+        border-radius: 8px;
+        transition: opacity 0.1s;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+  .content {
+    padding: 12px;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      fieldset {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        background: rgba(255, 255, 255, .2);
+
+        border-radius: 12px;
+
+        label {
+          padding: 6px 12px;
+          font-size: 0.75rem;
+          font-weight: 700;
+        }
+
+        textarea {
+          background: transparent;
+          border: none;
+        }
+      }
+
+      button[type="submit"] {
+        background: rgb(37 99 235 / 1);
+        color: white;
+        transition: opacity 0.1s;
+        padding: 4px 12px;
+        border-radius: 8px;
+        align-self: flex-end;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}
