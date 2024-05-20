@@ -2,10 +2,12 @@
   --opacity: 100%;
   --background: #0f172a;
   --color: rgba(255, 255, 255, 0.87);
+  --distance: 0.5rem;
 
   position: fixed;
-  bottom: 1rem;
-  right: 1rem;
+  bottom: var(--distance);
+  right: var(--distance);
+  z-index: 999;
 
   .trigger {
     color: rgba(255, 255, 255, var(--opacity));
@@ -13,14 +15,10 @@
     cursor: pointer;
     padding: 0.5rem 1rem;
     border-radius: 999px;
-    transition: color 0.15s;
-
-    &:hover {
-      --opacity: 80%;
-    }
 
     &>svg {
-      height: 18px;
+      height: 1.25rem;
+      margin-bottom: -0.125rem;
     }
   }
 
@@ -28,80 +26,144 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin-top: -8px;
-    width: 450px;
-    border: 1px solid rgba(0, 0, 0, .2);
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: calc(-1 * var(--distance));
+    border-radius: 0.75rem;
     background: var(--background);
     color: var(--color);
+    padding: 0.5rem 0;
+    width: 550px;
+    max-height: calc(100dvh - 5rem);
+    overflow: hidden;
 
     transform: translate(0, -100%);
 
     >header {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(0, 0, 0, .2);
-      padding: 8px 12px;
 
       h1 {
         font-weight: 700;
       }
 
       button {
-        background: rgba(255, 255, 255, .2);
-        padding: 1px 8px;
         font-size: 12px;
-        border-radius: 8px;
-        transition: opacity 0.1s;
-
-        &:hover {
-          opacity: 0.5;
-        }
+        line-height: 1;
       }
     }
-  }
-
-  .content {
-    padding: 12px;
 
     form {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      grid-template-columns: subgrid;
+      gap: 8px;
+      grid-column: wide;
+      overflow-y: auto;
 
       fieldset {
+        grid-template-columns: subgrid;
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        background: rgba(255, 255, 255, .2);
-
+        gap: 12px;
+        padding: 8px 12px;
+        background: rgba(255, 255, 255, .1);
         border-radius: 12px;
 
-        label {
-          padding: 6px 12px;
-          font-size: 0.75rem;
-          font-weight: 700;
-        }
 
-        textarea {
-          background: transparent;
-          border: none;
+        .fields {
+          display: grid;
+          grid-template-columns: 1fr 1fr 36px;
+          gap: 8px;
+
+          >span {
+            font-size: 0.75rem;
+            font-weight: bold;
+          }
+
+          .remove-row p {
+            rotate: 45deg;
+          }
+
+          .add-new-row {
+            grid-column: span 3;
+          }
         }
       }
 
-      button[type="submit"] {
-        background: rgb(37 99 235 / 1);
-        color: white;
-        transition: opacity 0.1s;
-        padding: 4px 12px;
-        border-radius: 8px;
-        align-self: flex-end;
+      footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 1rem;
 
-        &:hover {
-          opacity: 0.8;
-        }
       }
     }
+  }
+
+  /* Layout */
+  .grid {
+    display: grid;
+    grid-template-columns: [fullscreen-start] 0.5rem [wide-start] 0.5rem [content-start] 1fr [content-end] 0.5rem [wide-end] 0.5rem [fullscreen-end];
+    gap: 0.5rem 0;
+
+    >* {
+      grid-column: content;
+    }
+
+    .wide {
+      grid-column: wide;
+    }
+  }
+
+  /* Utils */
+  button {
+    transition: opacity 0.1s;
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    background: rgba(255, 255, 255, .2);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .suggestion {
+    display: flex;
+    gap: 4px;
+    font-size: 0.75rem;
+
+    .icon {
+      flex: 0 0 auto;
+      font-weight: 700;
+      border: 1px solid currentColor;
+      width: 1rem;
+      height: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+  }
+
+  button[type="submit"] {
+    background: rgb(37 99 235 / 1);
+    align-self: flex-end;
+    margin-right: 0.5rem;
+  }
+
+  input {
+    background: transparent;
+    width: 100%;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, .2);
+  }
+
+  legend {
+    font-weight: 700;
+  }
+
+  .success {
+    color: #39cd39;
   }
 }
