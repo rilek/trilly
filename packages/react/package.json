@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "pnpm run build"
   },
   "type": "module",
   "main": "dist/cjs/index.cjs",
