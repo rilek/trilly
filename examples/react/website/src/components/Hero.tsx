@@ -8,16 +8,17 @@ import logoStatamic from '@/images/logos/statamic.svg'
 import logoStaticKit from '@/images/logos/statickit.svg'
 import logoTransistor from '@/images/logos/transistor.svg'
 import logoTuple from '@/images/logos/tuple.svg'
+import { getField } from '@trillyapp/vanilla'
 
-export function Hero({ data }: { data: Record<string, string> }) {
-
-  const [pre, mid, post] = data["title"].split(/[{}]/g);
+export function Hero({ data }: { data: Map<string, string> }) {
+  const title = getField(data, 'title') as string
+  const [pre, mid, post] = title.split(/[{}]/g)
 
   return (
-    <Container className="pt-20 pb-16 text-center lg:pt-32">
-      <h1 className="max-w-4xl mx-auto text-5xl font-medium tracking-tight font-display text-slate-900 sm:text-7xl">
+    <Container className="pb-16 pt-20 text-center lg:pt-32">
+      <h1 className="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
         {pre}
-        <span className="relative text-blue-600 whitespace-nowrap">
+        <span className="relative whitespace-nowrap text-blue-600">
           <svg
             aria-hidden="true"
             viewBox="0 0 418 42"
@@ -30,31 +31,31 @@ export function Hero({ data }: { data: Record<string, string> }) {
         </span>
         {post}
       </h1>
-      <p className="max-w-2xl mx-auto mt-6 text-lg tracking-tight text-slate-700">
-        {data["subline"]}
+      <p className="mx-auto mt-6 max-w-2xl text-lg tracking-tight text-slate-700">
+        {getField(data, 'subline')}
       </p>
-      <div className="flex justify-center mt-10 gap-x-6">
-        <Button href="/register">{data["register-button"]}</Button>
+      <div className="mt-10 flex justify-center gap-x-6">
+        <Button href="/register">{getField(data, 'register-button')}</Button>
         <Button
           href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           variant="outline"
         >
           <svg
             aria-hidden="true"
-            className="flex-none w-3 h-3 fill-blue-600 group-active:fill-current"
+            className="h-3 w-3 flex-none fill-blue-600 group-active:fill-current"
           >
             <path d="m9.997 6.91-7.583 3.447A1 1 0 0 1 1 9.447V2.553a1 1 0 0 1 1.414-.91L9.997 5.09c.782.355.782 1.465 0 1.82Z" />
           </svg>
-          <span className="ml-3">{data["demo-button"]}</span>
+          <span className="ml-3">{getField(data, 'demo-button')}</span>
         </Button>
       </div>
       <div className="mt-36 lg:mt-44">
-        <p className="text-base font-display text-slate-900">
+        <p className="font-display text-base text-slate-900">
           Trusted by these six companies so far
         </p>
         <ul
           role="list"
-          className="flex items-center justify-center mt-8 gap-x-8 sm:flex-col sm:gap-x-0 sm:gap-y-10 xl:flex-row xl:gap-x-12 xl:gap-y-0"
+          className="mt-8 flex items-center justify-center gap-x-8 sm:flex-col sm:gap-x-0 sm:gap-y-10 xl:flex-row xl:gap-x-12 xl:gap-y-0"
         >
           {[
             [

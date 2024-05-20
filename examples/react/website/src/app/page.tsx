@@ -10,8 +10,10 @@ import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
 import { Testimonials } from '@/components/Testimonials'
 import { useState } from 'react'
-import { TrillyClient, createTrillyClient } from '@trillyapp/vanilla'
-import { useContainer } from '@trillyapp/react'
+import { createTrillyClient, getField } from '@trillyapp/vanilla'
+import { useContainer } from '@trillyapp/react/src/hooks/useContainer';
+
+import { TrillyDevTools } from '@trillyapp/react/src/components/TrillyDevTools'
 
 export default function Home() {
   const [trilly] = useState(
@@ -22,23 +24,14 @@ export default function Home() {
     }),
   )
 
-  const container = useContainer(trilly, 'homepage', 'website')
-
-  if (!container?.data) {
-    return <></>
-  }
-
-  const { data } = container
-
-  console.log(container)
-
-  if (!data) return <></>
+  const container = useContainer(trilly, 'website', 'examples')
+  const hero = getField(container as any, 'hero')!
 
   return (
     <>
       <Header />
       <main>
-        <Hero data={data.hero} />
+        {hero && <Hero data={hero} />}
         <PrimaryFeatures />
         <SecondaryFeatures />
         <CallToAction />
@@ -47,6 +40,7 @@ export default function Home() {
         <Faqs />
       </main>
       <Footer />
+      <TrillyDevTools client={trilly} />
     </>
   )
 }
