@@ -11,9 +11,9 @@ import { SecondaryFeatures } from '@/components/SecondaryFeatures'
 import { Testimonials } from '@/components/Testimonials'
 import { useState } from 'react'
 import { createTrillyClient, getField } from '@trillyapp/vanilla'
-import { useContainer } from '@trillyapp/react/src/hooks/useContainer';
+import { useContainer, TrillyDevTools } from '@trillyapp/react'
 
-import { TrillyDevTools } from '@trillyapp/react/src/components/TrillyDevTools'
+import '@trillyapp/react/dist/style.css'
 
 export default function Home() {
   const [trilly] = useState(
