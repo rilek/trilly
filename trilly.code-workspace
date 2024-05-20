@@ -19,6 +19,5 @@
     "[jsonc]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode",
     },
-    "typescript.tsdk": "node_modules/typescript/lib", // set as "true" to run 'prettier' last not first
   },
 }
