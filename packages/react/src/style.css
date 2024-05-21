@@ -8,6 +8,11 @@
   bottom: var(--distance);
   right: var(--distance);
   z-index: 999;
+  text-align: left;
+
+  * {
+    box-sizing: border-box;
+  }
 
   .trigger {
     color: rgba(255, 255, 255, var(--opacity));
@@ -17,6 +22,7 @@
     border-radius: 999px;
 
     &>svg {
+      display: block;
       height: 1.25rem;
       margin-bottom: -0.125rem;
     }
@@ -42,7 +48,9 @@
       justify-content: space-between;
 
       h1 {
+        font-size: 1rem;
         font-weight: 700;
+        margin: 0;
       }
 
       button {
@@ -67,6 +75,8 @@
         padding: 8px 12px;
         background: rgba(255, 255, 255, .1);
         border-radius: 12px;
+        border: none;
+        outline: none;
 
 
         .fields {
@@ -79,7 +89,8 @@
             font-weight: bold;
           }
 
-          .remove-row p {
+          .remove-row span {
+            display: block;
             rotate: 45deg;
           }
 
@@ -121,9 +132,16 @@
     border-radius: 8px;
     font-weight: 700;
     background: rgba(255, 255, 255, .2);
+    outline: none;
+    border: none;
 
     &:hover {
       opacity: 0.8;
+    }
+
+    &:focus {
+      outline: none;
+      border: none;
     }
   }
 
@@ -157,6 +175,7 @@
     padding: 0.25rem 0.5rem;
     border-radius: 8px;
     border: 1px solid rgba(255, 255, 255, .2);
+    /* height: 2rem; */
   }
 
   legend {

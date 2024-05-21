@@ -8,7 +8,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import "./style.css";
+import "../style.css";
 import { Logo } from "./Logo";
 import { useWatchContextChanges } from "../hooks/utils";
 
@@ -93,7 +93,7 @@ const ContextForm = ({ client }: TrillyDevToolsProps) => {
                   setLocalContext((data) => data.filter((_, j) => i !== j))
                 }
               >
-                <p>+</p>
+                <span>+</span>
               </button>
             </Fragment>
           ))}
