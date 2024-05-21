@@ -1,5 +1,5 @@
 import { type TrillyClient } from "@trillyapp/vanilla";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useWatchContextChanges } from "./utils";
 
 export type JSONValue = {
@@ -24,10 +24,10 @@ export const useContainer = (
 ) => {
   const [container, setContainer] = useState<Map<string, any> | undefined>();
 
-  const fetchContainer = async () => {
+  const fetchContainer = useCallback(async () => {
     const result = await client.fetchContainer(containerName, collectionName);
     setContainer(result.data);
-  };
+  }, [client]);
 
   useWatchContextChanges(client, fetchContainer);
 
