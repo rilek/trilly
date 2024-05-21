@@ -18,7 +18,11 @@ type TrillyProviderType = FC<
 export const TrillyProvider: TrillyProviderType = ({ children, client }) => {
   if (!client) console.error("Trelly client instance is required");
 
-  return children;
+  return (
+    <TrillyContext.Provider value={{ client }}>
+      {children}
+    </TrillyContext.Provider>
+  );
 };
 
 export const useTrillyClient = () => {

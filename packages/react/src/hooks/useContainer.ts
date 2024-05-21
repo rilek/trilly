@@ -22,7 +22,7 @@ export const useContainer = (
   containerName: string,
   collectionName: string,
 ) => {
-  const [container, setContainer] = useState<{ data: Container } | undefined>();
+  const [container, setContainer] = useState<Map<string, any> | undefined>();
 
   const fetchContainer = async () => {
     const result = await client.fetchContainer(containerName, collectionName);
