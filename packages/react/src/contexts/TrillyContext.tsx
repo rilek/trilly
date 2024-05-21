@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren, createContext, useContext } from "react";
+import React, { FC, PropsWithChildren, createContext, useContext } from "react";
 import { type TrillyClient } from "@trillyapp/vanilla";
 
 interface ITrillyContext {
