@@ -22,6 +22,20 @@
     "dist",
     "src"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    },
+    "./package.json": "./package.json",
+    "./style.css": "./dist/style.css"
+  },
   "dependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "vite": "^5.2.11"
