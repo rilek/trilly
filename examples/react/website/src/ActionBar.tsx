@@ -1,4 +1,4 @@
-import { useTrillyClient } from "@trillyapp/react/src";
+import { useTrillyClient } from "@trillyapp/react";
 import { type TrillyClient } from "@trillyapp/vanilla";
 
 const setPosition = (client: TrillyClient, position: string) =>
@@ -8,7 +8,7 @@ export function ActionBar() {
   const client = useTrillyClient();
 
   const setProjectManager = () => setPosition(client, "project-manager");
-  const setDeveloper = () => setPosition(client, "project-manager");
+  const setDeveloper = () => setPosition(client, "developer");
 
   return (
     <div className="actions">

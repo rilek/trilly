@@ -1,5 +1,5 @@
-import { useTrillyClient, useContainer } from "@trillyapp/react/src";
-import { getField } from "@trillyapp/vanilla/src";
+import { useTrillyClient, useContainer } from "@trillyapp/react";
+import { getField } from "@trillyapp/vanilla";
 import { Hero, HeroProps } from "./Hero";
 
 export function Content() {

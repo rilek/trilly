@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { createTrillyClient } from "@trillyapp/vanilla";
 import { TrillyDevTools, TrillyProvider } from "@trillyapp/react";
-
-import "./App.css";
-import "@trillyapp/react/style.css";
 import { ActionBar } from "./ActionBar";
 import { Content } from "./Content";
 
+import "./App.css";
+import "@trillyapp/react/style.css";
+
 const defaultContext = { position: "project-manager" };
 
-const useClientState = () => {
+const useCachedClient = () => {
   const [client] = useState(
     createTrillyClient({
       apiKey: import.meta.env.VITE_TRILLY_API_KEY as string,
@@ -21,7 +21,7 @@ const useClientState = () => {
 };
 
 function App() {
-  const client = useClientState();
+  const client = useCachedClient();
 
   return (
     <>
