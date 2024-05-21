@@ -29,12 +29,43 @@ export function parseContainer(
   return fields;
 }
 
-type GetField = {
-  <T>(container: undefined | null, fieldName: string): undefined;
-  <T>(container: Map<string, any>, fieldName: string): T | undefined;
+type FieldType =
+  | undefined
+  | null
+  | string
+  | number
+  | boolean
+  | Map<string, any>
+  | Array<FieldType>;
+
+type GetFieldOpts = {
+  returnObject: boolean;
 };
 
-export const getField: GetField = (container, fieldName) => {
-  if (!container) return undefined;
-  return container.get(fieldName);
+type GetField = {
+  <T>(
+    content: undefined | null,
+    fieldName: string,
+    opts: GetFieldOpts,
+  ): undefined;
+
+  <T>(
+    content: Map<string, any>,
+    fieldName: string,
+    opts: GetFieldOpts,
+  ): T extends any ? T : FieldType | undefined;
+};
+
+export const getField: GetField = (
+  content,
+  fieldName,
+  { returnObject = false },
+) => {
+  if (!content) return undefined;
+
+  const data = content.get(fieldName);
+
+  if (!(data instanceof Map)) return data;
+
+  return returnObject ? Object.fromEntries(data) : data;
 };
