@@ -1,31 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getField } from "../src/utils";
-
-function parseContainer(container: null | undefined): null;
-function parseContainer(container: { data: any } | any[]): Map<string, any>;
-
-function parseContainer(container: { data: any } | any[] | null | undefined) {
-  if (!container) return null;
-  const data = (container as any)?.data || (container as any[]);
-
-  const fields = new Map<string, any>();
-
-  for (const field of data) {
-    const val = field.value;
-    fields.set(
-      field.name,
-      val.constructor === Object
-        ? parseContainer([val])
-        : Array.isArray(val)
-          ? Array.isArray(val[0])
-            ? val.map((v) => parseContainer(v))
-            : parseContainer(val)
-          : val,
-    );
-  }
-
-  return fields;
-}
+import { getField, parseContainer } from "../src/utils";
 
 const testContainer = {
   data: [
@@ -82,6 +56,48 @@ describe("Fields JSON to Map conversion", () => {
 
     expect(list[0].get("Item 1")).toBe(1);
     expect(list[1].get("Item 2")).toBe(2);
+  });
+});
+
+describe("Fields to object conversion", () => {
+  const opts = { returnObject: true } as const;
+  it("should safely return null if container is empty", () => {
+    expect(parseContainer(null, opts)).toBeNull();
+  });
+
+  it("should safely return undefined if key is not found", () => {
+    const fields = parseContainer(testContainer, opts);
+    expect(fields["Non existing field"]).toBeUndefined();
+  });
+
+  it("should correctly parse container data to map", () => {
+    const fields = parseContainer(testContainer, opts);
+
+    expect(fields).toBeInstanceOf(Object);
+  });
+
+  it("should correctly parse simple fields", () => {
+    const fields = parseContainer(testContainer, opts);
+
+    expect(fields["Simple field"]).toBe("Hello, World!");
+  });
+
+  it("should correctly parse section fields", () => {
+    const fields = parseContainer(testContainer, opts);
+
+    const section = fields["Section field"];
+
+    expect(section["title"]).toBe("Hello, World!");
+    expect(section["description"]).toBe("This is a test description");
+  });
+
+  it("should correctly parse list fields", () => {
+    const fields = parseContainer(testContainer, opts);
+
+    const list = fields["List field"];
+
+    expect(list[0]["Item 1"]).toBe(1);
+    expect(list[1]["Item 2"]).toBe(2);
   });
 });
 
