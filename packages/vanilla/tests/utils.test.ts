@@ -63,8 +63,6 @@ describe("Fields JSON to Map conversion", () => {
   it("should correctly parse simple fields", () => {
     const fields = parseContainer(testContainer);
 
-    console.log(fields);
-
     expect(fields.get("Simple field")).toBe("Hello, World!");
   });
 
