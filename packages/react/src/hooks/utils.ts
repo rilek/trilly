@@ -1,7 +1,5 @@
 import { TrillyClient } from "@trillyapp/vanilla";
-import { useEffect } from "react";
-
-let i = 0;
+import { useEffect, useState } from "react";
 
 export const useWatchContextChanges = (
   client: TrillyClient,
@@ -10,14 +8,37 @@ export const useWatchContextChanges = (
 ) => {
   useEffect(() => {
     client.on("context:set", callback);
-    console.log("MOUNTING", i);
+
     if (callOnInit) callback();
 
-    i = i++;
-
-    () => {
-      console.log("UMOUNTING", i);
+    return () => {
       client.off("context:set", callback);
     };
   }, [client]);
+};
+
+export const useAutoVersioning = (deps: unknown[]) => {
+  const [version, setVersion] = useState(0);
+
+  useEffect(() => {
+    setVersion((v) => v + 1);
+  }, deps);
+
+  return version;
+};
+
+export const useTimedToggle = (ms: number) => {
+  const [value, setValue] = useState(false);
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (value) {
+      timeout = setTimeout(() => setValue(false), ms);
+    }
+    return () => clearTimeout(timeout);
+  }, [value]);
+
+  const setTrue = () => setValue(true);
+
+  return [value, setTrue] as const;
 };

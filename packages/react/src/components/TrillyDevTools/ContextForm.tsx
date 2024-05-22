@@ -5,63 +5,56 @@ import React, {
   FormEventHandler,
   Fragment,
   useCallback,
-  useEffect,
   useState,
 } from "react";
-import "../style.css";
-import { Logo } from "./Logo";
-import { useWatchContextChanges } from "../hooks/utils";
+import {
+  useAutoVersioning,
+  useTimedToggle,
+  useWatchContextChanges,
+} from "../../hooks/utils";
+import { chunk, parseKv, second } from "../../utilts";
 
-type TrillyDevToolsProps = {
+import "../../style.css";
+
+type Entries = [string, string][];
+
+type SubmitForm = {
+  (
+    client: TrillyClient,
+    onSuccess: () => void,
+  ): FormEventHandler<HTMLFormElement>;
+};
+
+const submitForm: SubmitForm = (client, onSuccess) => (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target as HTMLFormElement);
+  const entries = chunk([...formData.entries()].map(second), 2) as Entries;
+
+  client.setContext(
+    Object.fromEntries(entries.map(([k, v]) => [k, JSON.parse(v as string)])),
+  );
+  onSuccess;
+};
+
+interface ContextFormProps {
   client: TrillyClient;
-};
+}
 
-const parseKv = (x: unknown): string =>
-  typeof x === "string" ? `"${x}"` : (x as string);
-
-const chunk = <T extends unknown>(arr: T[], size: number): T[][] => {
-  const res: T[][] = [];
-  for (let i = 0; i < arr.length; i += size) {
-    res.push(arr.slice(i, i + size));
-  }
-  return res;
-};
-
-const second = ([, x]: unknown[]) => x;
-
-const ContextForm = ({ client }: TrillyDevToolsProps) => {
+export const ContextForm = ({ client }: ContextFormProps) => {
+  const [submitted, setSubmitted] = useTimedToggle(3000);
   const [context, setLocalContext] = useState(
     Object.entries(client.getContext()) as [unknown, unknown][],
   );
-  const [submitted, setSubmitted] = useState(false);
+  const version = useAutoVersioning([context]);
 
   useWatchContextChanges(client, () => {
     setLocalContext(Object.entries(client.getContext()));
   });
 
-  useEffect(() => {
-    if (submitted) {
-      setTimeout(() => setSubmitted(false), 3000);
-    }
-  }, [submitted]);
-
   const submitContext = useCallback<FormEventHandler<HTMLFormElement>>(
-    (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target as HTMLFormElement);
-      const entries = chunk([...formData.entries()].map(second), 2) as [
-        string,
-        string,
-      ][];
-
-      client.setContext(
-        Object.fromEntries(
-          entries.map(([k, v]) => [k, JSON.parse(v as string)]),
-        ),
-      );
-      setSubmitted(true);
-    },
-    [context, client],
+    submitForm(client, setSubmitted),
+    [client],
   );
 
   return (
@@ -75,7 +68,7 @@ const ContextForm = ({ client }: TrillyDevToolsProps) => {
           <span>Value</span>
           <span></span>
           {context.map(([key, value], i) => (
-            <Fragment key={i}>
+            <Fragment key={`${version}:${i}`}>
               <input
                 type="text"
                 name={`key-${i}`}
@@ -115,29 +108,5 @@ const ContextForm = ({ client }: TrillyDevToolsProps) => {
         <button type="submit">Save</button>
       </footer>
     </form>
-  );
-};
-
-export const TrillyDevTools = ({ client }: TrillyDevToolsProps) => {
-  const [open, setOpen] = useState(false);
-  const toggleOpen = useCallback(() => setOpen((x) => !x), [setOpen]);
-
-  return (
-    <div className="_trilly-dev-tools_">
-      <button className="trigger" onClick={toggleOpen}>
-        <Logo />
-      </button>
-
-      {open && (
-        <div className="popover grid">
-          <header>
-            <h1>Trilly dev tools</h1>
-            <button onClick={toggleOpen}>Close</button>
-          </header>
-
-          <ContextForm client={client} />
-        </div>
-      )}
-    </div>
   );
 };
