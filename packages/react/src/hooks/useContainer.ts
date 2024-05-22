@@ -21,11 +21,14 @@ export const useContainer = (
   client: TrillyClient,
   containerName: string,
   collectionName: string,
+  { returnObject } = { returnObject: false },
 ) => {
   const [container, setContainer] = useState<Map<string, any> | undefined>();
 
   const fetchContainer = useCallback(async () => {
-    const result = await client.fetchContainer(containerName, collectionName);
+    const result = await client.fetchContainer(containerName, collectionName, {
+      returnObject,
+    });
     setContainer(result.data);
   }, [client]);
 

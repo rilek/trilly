@@ -76,7 +76,11 @@ export class TrillyClient extends TinyEmitter {
     return container;
   }
 
-  public async fetchContainer(containerName: string, collectionName?: string) {
+  public async fetchContainer(
+    containerName: string,
+    collectionName?: string,
+    opts = { returnObject: false },
+  ) {
     const isSingle = !collectionName;
 
     const suffix = isSingle
@@ -93,7 +97,7 @@ export class TrillyClient extends TinyEmitter {
 
     const container = await result.json();
 
-    container["data"] = parseContainer(container["data"]);
+    container["data"] = parseContainer(container["data"], opts);
 
     return container;
   }
