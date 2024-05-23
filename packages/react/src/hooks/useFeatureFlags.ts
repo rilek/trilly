@@ -14,8 +14,7 @@ export const useFeatureFlags = (
   client: TrillyClient,
   { collectionName = "feature-flags" }: UseFeatureFlagOpts = {},
 ) => {
-  const result = useCollection(client, collectionName);
-
+  const result = useCollection(client, collectionName, { returnObject: true });
   const flags = result?.data;
 
   const isEnabled = useCallback(

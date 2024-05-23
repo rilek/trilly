@@ -17,13 +17,19 @@ export type Container = {
   data: JSONValue;
 };
 
-export const useCollection = (client: TrillyClient, collectionName: string) => {
+export const useCollection = (
+  client: TrillyClient,
+  collectionName: string,
+  { returnObject } = { returnObject: false },
+) => {
   const [collection, setCollection] = useState<
     { data: Container[] } | undefined
   >();
 
   const fetchCollections = async () => {
-    const result = await client.fetchCollection(collectionName);
+    const result = await client.fetchCollection(collectionName, {
+      returnObject,
+    });
     setCollection(result);
   };
 
