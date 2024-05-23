@@ -1,91 +1,61 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
+
+import { createTrillyClient } from "@trillyapp/vanilla";
+import {
+  TrillyProvider,
+  TrillyDevTools,
+  useFeatureFlags,
+} from "@trillyapp/react";
+import { ActionBar } from "./ActionBar";
+
 import "./App.css";
-
-import { TrillyClient, createTrillyClient } from "@trillyapp/vanilla";
-import { useFeatureFlags } from "@trillyapp/react";
-
-const contexts = [
-  { title: "Visitor", context: {} },
-  {
-    title: "User",
-    context: {
-      isLoggedIn: true,
-    },
-  },
-];
-
-const ContextPicker = ({ trilly }: { trilly: TrillyClient }) => {
-  const contextIdx = contexts.findIndex(
-    (c) => JSON.stringify(c.context) === JSON.stringify(trilly.getContext())
-  );
-
-  const selectChangeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    trilly.setContext(contexts[parseInt(e.target.value, 10)].context!);
-  };
-
-  return (
-    <div
-      style={{
-        position: "absolute",
-        top: 12,
-        right: 12,
-      }}
-    >
-      Context:
-      <select value={contextIdx} onChange={selectChangeHandler}>
-        {contexts.map((c, i) => {
-          return (
-            <option key={i} value={i}>
-              {c.title}
-            </option>
-          );
-        })}
-      </select>
-    </div>
-  );
-};
+import "@trillyapp/react/style.css";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [trilly] = useState(
+  const [client] = useState(
     createTrillyClient({
       apiKey: import.meta.env["VITE_TRILLY_API_KEY"],
-      context: contexts[0].context,
+      context: { isLoggedIn: false },
     })
   );
 
-  const flags = useFeatureFlags(trilly);
+  const flags = useFeatureFlags(client, { collectionName: "examples" });
   const counterEnabled = flags.isEnabled("enable-counter");
 
   return (
-    <div>
-      <ContextPicker trilly={trilly} />
-
+    <TrillyProvider client={client}>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        {counterEnabled && (
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
-        )}
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+        <ActionBar />
+
+        <div>
+          <a href="https://vitejs.dev" target="_blank">
+            <img src={viteLogo} className="logo" alt="Vite logo" />
+          </a>
+          <a href="https://react.dev" target="_blank">
+            <img src={reactLogo} className="logo react" alt="React logo" />
+          </a>
+        </div>
+        <h1>Vite + React</h1>
+        <div className="card">
+          {counterEnabled && (
+            <button onClick={() => setCount((count) => count + 1)}>
+              count is {count}
+            </button>
+          )}
+          <p>
+            Edit <code>src/App.tsx</code> and save to test HMR
+          </p>
+        </div>
+        <p className="read-the-docs">
+          Click on the Vite and React logos to learn more
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+
+      <TrillyDevTools client={client} />
+    </TrillyProvider>
   );
 }
 
