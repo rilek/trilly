@@ -61,7 +61,10 @@ export class TrillyClient extends TinyEmitter {
     this.emit("context:setField", newContext, { field, value });
   }
 
-  public async fetchCollection(collectionName: string) {
+  public async fetchCollection(
+    collectionName: string,
+    opts = { returnObject: false },
+  ) {
     const url = new URL(`${this.apiUrl}/api/v1/collections/${collectionName}`);
 
     const result = await (this.fetch || fetch)(url, {
@@ -71,7 +74,9 @@ export class TrillyClient extends TinyEmitter {
     });
 
     const container = await result.json();
-    container["data"] = container?.data.map(parseContainer);
+    container["data"] = container["data"].map((obj: any) =>
+      parseContainer(obj, opts),
+    );
 
     return container;
   }
