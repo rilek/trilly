@@ -6,13 +6,12 @@ import { createTrillyClient } from "@trillyapp/vanilla";
 import {
   TrillyProvider,
   TrillyDevTools,
-  // useFeatureFlags,
+  useFeatureFlags,
 } from "@trillyapp/react";
-import { useFeatureFlags } from "@trillyapp/react/src/hooks/useFeatureFlags";
 import { ActionBar } from "./ActionBar";
 
 import "./App.css";
-import "@trillyapp/react/dist/style.css";
+import "@trillyapp/react/style.css";
 
 const useCreateTrillyClient = () =>
   useState(
@@ -28,8 +27,6 @@ function App() {
 
   const flags = useFeatureFlags(client);
   const counterEnabled = flags.isEnabled("enable-counter");
-
-  console.log(counterEnabled);
 
   return (
     <>
